@@ -5,7 +5,7 @@ class Loader extends Component {
         return (
             <>
                 <div className="d-flex justify-content-around" style={{marginTop:"30vh"}}>
-                    <div class="loadingio-spinner-bean-eater-3poewpxqbju"><div class="ldio-9zwbyfull3h">
+                    <div className="loadingio-spinner-bean-eater-3poewpxqbju"><div className="ldio-9zwbyfull3h">
                     <div><div></div><div></div><div></div></div><div><div></div><div></div><div></div></div>
                     </div></div>
                 </div>

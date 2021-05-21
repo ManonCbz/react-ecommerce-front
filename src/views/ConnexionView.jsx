@@ -26,6 +26,7 @@ class ConnexionView extends Component {
         .then( resp => {
             setSubmitting(false)
             localStorage.setItem('token', resp.data.id_token)
+            console.log(resp.data.id_token)
             apiToken.get("/public/account")
                     .then((r) => {
                         this.setState({redirection: true})

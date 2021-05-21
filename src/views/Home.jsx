@@ -13,15 +13,10 @@ class Home extends Component {
     state = {
         produits: [],
         images: [],
-        panier: [],
         isLoading: true
     }
 
     componentDidMount() {
-
-        if(localStorage.getItem("panier")) {
-            this.setState({ panier: localStorage.getItem("panier")})
-        }
 
         apiLibre.get("/public/products")
                 .then((responce) => {
@@ -50,9 +45,7 @@ class Home extends Component {
                     {produits.map((produit) => 
                         <ProduitsComp key={produit.id} produit={produit} image={images[produit.id - 1]}/>
                     )}
-
                     {nbProduitPair(produits)}
-
                 </div>
             </div>
         );

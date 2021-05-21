@@ -3,17 +3,23 @@ import Loader from '../shared/components/Loader';
 import apiLibre from './../api/apiLibre';
 import MenuCategoriesComp from './../components/MenuCategoriesComp';
 
+var nbProduit = 1
 class DetailProduitView extends Component {
 
     state = {
         produit: '',
         image: '',
+        panier: [],
         isLoading: true
     }
 
     componentDidMount(){
-        const id = this.props.match.params.id
+        
+        if(localStorage.getItem("panier")) {
+            this.setState({ panier: JSON.parse(localStorage.getItem("panier")) })
+        }
 
+        const id = this.props.match.params.id
         apiLibre.get("/public/products/" + id)
                 .then(responce => {
                     this.setState({
@@ -29,15 +35,22 @@ class DetailProduitView extends Component {
                 })
     }
 
+    ajouterAuPanier = (p) => {
+        console.log("ok : " + nbProduit)
+        const panier = this.state.panier
+        for(var i = 0; i < nbProduit; i++) {
+            panier.push(p)
+        }
+        localStorage.setItem("panier", JSON.stringify(panier));
+        window.location.reload();
+    }
 
     render() {
         const { produit, image, isLoading } = this.state
         if(isLoading) return <Loader/>
         return (
             <div>
-
                 <MenuCategoriesComp/>
-
                 <div className="container-fluid detailProduit">
                     <div>
                         <h5>{produit.name}</h5>
@@ -45,7 +58,13 @@ class DetailProduitView extends Component {
                     </div>
                     <div>
                         <h4>{produit.price}€</h4>
-                        <button className="btn btn-outline-warning">AJOUTER AU PANIER</button>
+                        <div class="input-group mb-3">
+                            <input type="number" class="form-control" placeholder="1" min="1" aria-describedby="button-addon2"
+                                onChange={e => nbProduit = e.target.value}/>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-warning" type="button" id="button-addon2" onClick={() => this.ajouterAuPanier(produit)}>AJOUTER AU PANIER</button>
+                            </div>
+                        </div>
                     </div>
                 
                 </div>
