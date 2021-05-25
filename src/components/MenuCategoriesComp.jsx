@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class MenuCategoriesComp extends Component {
     render() {
@@ -13,7 +14,7 @@ class MenuCategoriesComp extends Component {
                             
                             <div className="items-body">
                                 <div className="items-body-content">
-                                    <span>1</span>
+                                    <Link to="/">Accueil</Link>
                                     <i className="fa fa-angle-right"></i>
                                 </div>
                             </div>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Loader from './../shared/components/Loader';
 import { Link } from 'react-router-dom';
-import ProduitsComp from './../components/ProduitsComp';
 import apiLibre from './../api/apiLibre';
+import ProduitPanierComp from './../components/ProduitPanierComp';
 
 class PanierView extends Component {
 
@@ -37,13 +37,30 @@ class PanierView extends Component {
         }
     }
 
-    contenuPanier = (panier) => {
+    retirerPanier = (produit) => {
+        var panier = this.state.panier
+        console.log(panier)
+        var index = -1
+        for (var i = 0; i < panier.length; i++) {
+            if(panier[i] === produit) {
+                index = i
+                break
+            }
+        }
+        console.log(index)
+        panier.splice(index, 1)
+        localStorage.setItem("panier", JSON.stringify(panier));
+        window.location.reload();
+    }
 
+    contenuPanier = (panier) => {
         if(panier.length > 0) {
             return (
                 <>
                     {panier.map((produit) => 
-                        <ProduitsComp key={produit.id} produit={produit} image={this.state.images[produit.id - 1]}/>
+                        <>
+                            <ProduitPanierComp key={produit.id} produit={produit} retirerPanier={this.retirerPanier} image={this.state.images[produit.id - 1]}/>
+                        </>  
                     )}
                 </>
             )}
@@ -67,9 +84,9 @@ class PanierView extends Component {
                     <hr/>
                     <div className="menuPanier">
                         {this.contenuPanier(panier)}
-                        {!utilisateur && <Link to="/Connexion">Se connecter</Link>}
                     </div>
                     <hr/>
+                    <h5 className="d-flex justify-content-end">Total : {total}€</h5>
                 </div>
                 <div className="col-3 p-5 element">
                     <p className="h5">Résumé commande :</p>
@@ -80,7 +97,6 @@ class PanierView extends Component {
                     {utilisateur ? <Link className="btn btn-outline-warning mt-4">Valider la commande</Link> 
                     : 
                     <Link className="mt-5" to="/Connexion">Connectez-vous pour valider votre panier</Link> }
-                    
                 </div>
             </div>
         );

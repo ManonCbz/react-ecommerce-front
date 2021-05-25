@@ -6,11 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: "Raleway", sans-serif;
 }
 
 .categoriesProduits {
@@ -123,6 +119,15 @@ code {
   color: #343a40;
 }
 
+.items-body-content a {
+  color: black;
+  text-decoration: none;
+}
+
+.items-body-content a:hover {
+  text-decoration: none;
+}
+
 .items-body-content:hover {
   border-radius: 15px;
   border: 1px solid #ffc107;
@@ -146,11 +151,18 @@ code {
   
 }
 
-.detailProduit {
+.detailProduit {    
   margin-top: 5vh;
-  width: 70%;
-  padding: 20px;
+  width: 65%;
+  padding: 40px;
   display: flex;
+  background-color: #fff;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .viewportPanier {

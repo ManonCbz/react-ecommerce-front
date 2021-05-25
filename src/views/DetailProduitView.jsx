@@ -36,7 +36,6 @@ class DetailProduitView extends Component {
     }
 
     ajouterAuPanier = (p) => {
-        console.log("ok : " + nbProduit)
         const panier = this.state.panier
         for(var i = 0; i < nbProduit; i++) {
             panier.push(p)
@@ -51,18 +50,19 @@ class DetailProduitView extends Component {
         return (
             <div>
                 <MenuCategoriesComp/>
-                <div className="container-fluid detailProduit">
-                    <div>
-                        <h5>{produit.name}</h5>
+                <div className="detailProduit">
+                    <div className="w-75">
+                        <h4>{produit.name}</h4>
                         <img alt="" src={image.path}/>
                     </div>
-                    <div>
+                    <div className="w-25 description">
                         <h4>{produit.price}€</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                         <div class="input-group mb-3">
                             <input type="number" class="form-control" placeholder="1" min="1" aria-describedby="button-addon2"
                                 onChange={e => nbProduit = e.target.value}/>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-warning" type="button" id="button-addon2" onClick={() => this.ajouterAuPanier(produit)}>AJOUTER AU PANIER</button>
+                                <button class="btn btn-warning text-secondary" type="button" id="button-addon2" onClick={() => this.ajouterAuPanier(produit)}>AJOUTER AU PANIER</button>
                             </div>
                         </div>
                     </div>
