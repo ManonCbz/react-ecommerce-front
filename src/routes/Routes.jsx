@@ -7,6 +7,7 @@ import DetailProduitView from './../views/DetailProduitView';
 import ConnexionView from './../views/ConnexionView';
 import Deconnexion from './../components/Deconnexion';
 import PanierView from './../views/PanierView';
+import CategorieView from './../views/CategorieView';
 
 
 const customHistory = createBrowserHistory()
@@ -16,7 +17,8 @@ class Routes extends Component {
         return (
             <Switch history={customHistory}>
                 <Route exact path="/" component={Home}/>
-                <Route path="/Home" component={Home}/>
+                <Route exact path="/Home" component={Home}/>
+                <Route path="/Home/:type" component={CategorieView}/>
                 <Route path="/Produit/:id" component={DetailProduitView}/>
                 <Route path="/Panier" component={PanierView}/>
                 <Route path="/Connexion" component={ConnexionView}/>

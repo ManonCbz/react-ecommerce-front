@@ -3,7 +3,14 @@ import Loader from './../shared/components/Loader';
 import { Link } from 'react-router-dom';
 import apiLibre from './../api/apiLibre';
 import ProduitPanierComp from './../components/ProduitPanierComp';
+import apiToken from './../api/apiToken';
+import { Formik, Form } from 'formik';
 
+const initialValues = {
+    products: [],
+    customer: '',
+    price: 0
+}
 class PanierView extends Component {
 
     state = {
@@ -18,12 +25,18 @@ class PanierView extends Component {
 
         if(localStorage.getItem("token")) {
             this.setState({utilisateur: true})
+            apiToken.get("/public/account")
+            .then((resp) => {
+                 initialValues.customer = resp.data
+            })
+            .catch()
         }
 
         if(localStorage.getItem("panier")) {
 
             JSON.parse(localStorage.getItem("panier")).map((produit) => 
-                this.setState({ total: this.state.total += produit.price })
+                this.setState({ total: this.state.total += produit.price }),
+                initialValues.price = this.state.total
             )
 
             apiLibre.get("/public/images/")
@@ -37,9 +50,12 @@ class PanierView extends Component {
         }
     }
 
+    submit = (values, {setSubmitting}) => {
+        console.log("ok !")
+    }
+
     retirerPanier = (produit) => {
         var panier = this.state.panier
-        console.log(panier)
         var index = -1
         for (var i = 0; i < panier.length; i++) {
             if(panier[i] === produit) {
@@ -47,7 +63,6 @@ class PanierView extends Component {
                 break
             }
         }
-        console.log(index)
         panier.splice(index, 1)
         localStorage.setItem("panier", JSON.stringify(panier));
         window.location.reload();
@@ -94,7 +109,15 @@ class PanierView extends Component {
                         {panier.map((p) => <li>{p.name}</li> )}
                     </ul>
                     <h6 className="d-flex justify-content-end">Total : {total}€</h6>
-                    {utilisateur ? <Link className="btn btn-outline-warning mt-4">Valider la commande</Link> 
+                    {utilisateur ? 
+                    
+                    <Formik initialValues = {initialValues} onSubmit={this.submit}>
+                    {({isSubmitting}) => (
+                    <Form>
+                        <button type="submit" disabled={isSubmitting} className="btn btn-warning btn-block mt-4">Valider le panier</button>
+                    </Form>
+                    )}
+                    </Formik>
                     : 
                     <Link className="mt-5" to="/Connexion">Connectez-vous pour valider votre panier</Link> }
                 </div>
